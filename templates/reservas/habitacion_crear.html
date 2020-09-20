@@ -1,0 +1,19 @@
+{% extends "base_admin.html" %}
+{% load bootstrap3 %}
+
+{% block title %} Nueva Habitación {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+			<h3>Crear Habitación</h3>
+        </div>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-success">{% bootstrap_icon "floppy-disk" %} Guardar</button>
+        </form>
+
+    </div>
+{% endblock %}
