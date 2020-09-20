@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
     'apps.admin_central',
     'apps.reservas',
 ]
@@ -127,3 +128,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+LOGIN_REDIRECT_URL = 'home_admin:admin_panel'
+LOGOUT_REDIRECT_URL = 'login'
