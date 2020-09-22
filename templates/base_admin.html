@@ -37,17 +37,33 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                         class="glyphicon glyphicon-bed"></span>Habitaciones <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'reservas:crear_hab' %}">Crear</a></li>
-                            <li><a href="{% url 'reservas:listar_hab' %}">Listar</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><a href="{% url 'reservas:crear_hab' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Nueva Habitación</a></li>
+                            <li><a href="{% url 'reservas:listar_hab' %}">
+                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Habitaciones</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
+                            <li><a href="{% url 'reservas:crear_detHab' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Nuevo Detalle</a></li>
+                            <li><a href="{% url 'reservas:listar_detHab' %}">
+                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Detalles</a></li>                            
                         </ul>
                     </li>
-                    <li><a href="#"><span class="glyphicon glyphicon-envelope"></span>Reservaciones</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-home"></span>Hotel</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-envelope"></span>Reservaciones <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">
+                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Reservas</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                        class="glyphicon glyphicon-home"></span>Hotel <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'reservas:crear_ser' %}">
+                                <span class="glyphicon glyphicon-plus"></span> Nuevo Servicio</a></li>
+                            <li><a href="{% url 'reservas:listar_ser' %}">
+                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Servicios</a></li>
+                        </ul>
+                    </li>
                     <!--
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                         class="glyphicon glyphicon-search"></span>Search <b class="caret"></b></a>
@@ -112,11 +128,7 @@
 
     {% block content %}
         <div hidden>Contenido de nuestra página</div>
-    {% endblock %}
-
-    {% block social_networks %}
-        {% include 'social_networks.html' %}
-    {% endblock %}  
+    {% endblock %} 
 
 </body>
 </html>
