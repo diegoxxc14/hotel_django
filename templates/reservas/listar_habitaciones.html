@@ -8,6 +8,17 @@
         <div class="page-header">
 			<h3>Lista de Habitaciones</h3>
         </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+
         <table id="lista_habitaciones" class="table table-bordered">
             <thead>
                 <tr>
