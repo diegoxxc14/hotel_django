@@ -1,0 +1,59 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Servicios {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+			<h3>Lista de Servicios</h3>
+        </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+
+        <table id="lista_habitaciones" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Detalles</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ser in servicios %}
+                <tr {% if not ser.activo %} class="active" {% endif %}>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ ser.nombre }}</td>
+                    <td>{{ ser.detalle }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-warning" 
+                        href="#"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        <!--<a class="btn btn-warning fa fa-edit" 
+                        href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_habitaciones').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+
