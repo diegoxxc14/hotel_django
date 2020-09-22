@@ -1,0 +1,48 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Detalles de Habitación {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+			<h3>Lista de Detalles de Habitación</h3>
+        </div>
+        <table id="lista_habitaciones" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Detalle</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for detHab in detallesHab %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ detHab.nombre }}</td>
+                    <td>{{ detHab.detalle }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-warning" 
+                        href="#"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        <!--<a class="btn btn-warning fa fa-edit" 
+                        href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_habitaciones').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+
