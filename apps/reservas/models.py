@@ -7,6 +7,14 @@ PLANTAS = [
     ('3ra','3er Piso'),
 ]
 
+ESTADO_RESERVACION = [
+    ('PC','Por confirmar'),
+    ('CF','Confirmada'),
+    ('EE','En estadia'),
+    ('FN','Finalizada'),
+    ('CC','Cancelada'),
+]
+
 # Create your models here.
 class Cliente(models.Model):
     nombres = models.CharField(max_length=50)
@@ -43,7 +51,7 @@ class Periodo(models.Model):
     def __str__(self):
         return 'Desde el {0} al {1}'.format(self.fecha_ingreso, self.fecha_salida)
 
-class ServicioIncluido(models.Model):
+class Servicio(models.Model):
     nombre = models.CharField(max_length=50)
     detalle = models.TextField(max_length=100, blank=True)
     activo = models.BooleanField(default=True, null=False) #Controlar si el servicio está incluido o no
@@ -54,12 +62,11 @@ class ServicioIncluido(models.Model):
 class Reservacion(models.Model):
     nro_personas = models.IntegerField(help_text='Niños mayores de 12 años pagan tarifa completa', default=1)
     pago_total = models.DecimalField(max_digits=8, decimal_places=2)
-    pagada = models.BooleanField(default=False, null=False) #Controlar si la reserva si está pagada o no
     hora_llegada = models.TimeField()
-    activa = models.BooleanField(default=False, null=False) #Controlar si la reserva es válida o no
     peticion_adicional = models.TextField(max_length=200, blank=True)
-
+    estado = models.CharField(max_length=2, choices=ESTADO_RESERVACION, default='PC')
+    
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=False)
     habitacion = models.ManyToManyField(Habitacion, related_name='habitaciones')
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE, null=False)
-    servicio_incluido = models.ManyToManyField(ServicioIncluido, related_name='servicios_incluidos')
+    servicios = models.ManyToManyField(Servicio, related_name='servicios', help_text='Servicios incluidos')
