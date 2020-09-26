@@ -34,7 +34,7 @@ class DetalleHabitacion(models.Model):
 
 class Habitacion(models.Model):
     #foto = models.ImageField() #pip install Pillow
-    numero = models.CharField(verbose_name='Número:', max_length=4)
+    numero = models.CharField(verbose_name='Número:', max_length=4, unique=True)
     tipo = models.CharField(max_length=50)
     precio = models.DecimalField(max_digits=8, decimal_places=2)
     planta = models.CharField(max_length=3, choices=PLANTAS)
@@ -65,6 +65,7 @@ class Reservacion(models.Model):
     hora_llegada = models.TimeField()
     peticion_adicional = models.TextField(max_length=200, blank=True)
     estado = models.CharField(max_length=2, choices=ESTADO_RESERVACION, default='PC')
+    fecha_reserva = models.DateTimeField(auto_now_add=True) #Fecha y hora de creación
     
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=False)
     habitacion = models.ManyToManyField(Habitacion, related_name='habitaciones')
