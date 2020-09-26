@@ -24,7 +24,8 @@
                 <tr>
                   <th>#</th>
                   <th>Nombre</th>
-                  <th>Detalles</th>
+                  <th>Detalle</th>
+                  <th>Activo</th>
                   <th><span class="glyphicon glyphicon-flash"></span></th>
                 </tr>
               </thead>
@@ -35,8 +36,11 @@
                     <td>{{ ser.nombre }}</td>
                     <td>{{ ser.detalle }}</td>
                     <td>
-                        <a class="btn btn-xs btn-warning" 
-                        href="#"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        {% if ser.activo %} Si {% else %} No {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar"
+                        href="#"></a>
                         <!--<a class="btn btn-warning fa fa-edit" 
                         href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
                     </td>
