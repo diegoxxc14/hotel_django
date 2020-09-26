@@ -8,4 +8,6 @@ urlpatterns = [
 
     #Inicio de la Administración
     path('control_panel/', views.control_panel, name='control_panel'),
+
+    path('crear_usuario/', views.CrearUsuario.as_view(), name='crear_user'),
 ]
