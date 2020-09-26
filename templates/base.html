@@ -74,13 +74,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 							<!-- Collect the nav links, forms, and other content for toggling -->
 							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav">
-								<li class="active"><a href="{% url 'home' %}" data-hover="Home"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
+								<li class="active"><a href="{% url 'home:inicio' %}" data-hover="Home"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
 								<li><a href="about.html" data-hover="About">About</a></li>
 								<li><a data-hover="Restaurant" href="restaurant.html">Restaurant</a></li>
-								<li><a data-hover="Gallery" href="gallery.html"><span class="glyphicon glyphicon-picture"></span> Galería</a></li>
+								<li><a data-hover="Gallery" href="{% url 'home:galeria' %}"><span class="glyphicon glyphicon-picture"></span> Galería</a></li>
 								<li><a data-hover="Rooms" href="rooms.html">Habitaciones</a></li>
 								<li><a data-hover="Contact" href="contact.html"><span class="glyphicon glyphicon-earphone"></span> Contacto</a></li>
-								<li><a  href="{% url 'login' %}" data-hover="codes"><span class="glyphicon glyphicon-user"></span> Ingresar</a></li>
+								{% if user.is_authenticated %}
+									<li><a  href="{% url 'home_admin:control_panel' %}" data-hover="codes"><span class="glyphicon glyphicon-wrench"></span> Administración</a></li>
+								{% else %}
+									<li><a  href="{% url 'login' %}" data-hover="codes"><span class="glyphicon glyphicon-user"></span> Iniciar sesión</a></li>
+								{% endif %}
+								
 							</ul>
 							</div><!-- /.navbar-collapse -->
 						</div><!-- /.container-fluid -->
