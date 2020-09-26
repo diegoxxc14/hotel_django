@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     #Inicio del Sitio Web
-    path('', TemplateView.as_view(template_name='index.html'), name='home'),#Test
+    #path('', TemplateView.as_view(template_name='index.html'), name='home'),#Test
+    path('', include(('apps.admin_central.urls', 'admin_central'), namespace='home')),
     
     #Aplicación admin_central
     path('admin_central/', include(('apps.admin_central.urls', 'admin_central'), namespace='home_admin')),

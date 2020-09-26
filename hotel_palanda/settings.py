@@ -129,5 +129,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-LOGIN_REDIRECT_URL = 'home_admin:admin_panel'
+LOGIN_REDIRECT_URL = 'home_admin:control_panel'
 LOGOUT_REDIRECT_URL = 'login'
