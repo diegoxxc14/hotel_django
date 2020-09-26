@@ -25,8 +25,8 @@
                   <th>#</th>
                   <th>Número</th>
                   <th>Tipo</th>
+                  <th>Habilitada</th>
                   <th>Precio</th>
-                  <th>Planta</th>
                   <th><span class="glyphicon glyphicon-flash"></span></th>
                 </tr>
               </thead>
@@ -36,11 +36,13 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ hab.numero }}</td>
                     <td>{{ hab.tipo }}</td>
-                    <td>{{ hab.precio }}</td>
-                    <td>{{ hab.planta }}</td>
                     <td>
-                        <a class="btn btn-xs btn-warning" 
-                        href="{% url 'reservas:editar_hab' hab.pk %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        {% if hab.activa %} Si {% else %} No {% endif %}
+                    </td>
+                    <td>${{ hab.precio }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar" 
+                        href="{% url 'reservas:editar_hab' hab.pk %}"></a>
                         <!--<a class="btn btn-warning fa fa-edit" 
                         href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
                     </td>
