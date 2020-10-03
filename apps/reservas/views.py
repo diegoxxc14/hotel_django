@@ -14,12 +14,7 @@ from .forms import ReservacionForm
 def listar_reservas(request, template_name='reservas/listar_reservas.html'):
     reservas = Reservacion.objects.all()
     return render(request, template_name, {'reservas':reservas})
-'''
-@login_required
-def gestionar_reserva(request, pk, template_name='reservas/reserva_gestionar.html'):
-    reserva = Reservacion.objects.get(pk=pk)
-    return render(request, template_name, {'reserva':reserva})
-'''
+
 @method_decorator(login_required, name='dispatch')
 class GestionarReservacion(UpdateView):
     model = Reservacion
@@ -53,7 +48,6 @@ def listar_habitaciones(request, template_name='reservas/listar_habitaciones.htm
 @method_decorator(login_required, name='dispatch')
 class CrearHabitacion(CreateView):
     model = Habitacion
-    #fields = ['numero', 'tipo', 'precio', 'planta', 'activa', 'detalles']
     fields = '__all__'
     template_name_suffix = '_crear'
     success_url = reverse_lazy('reservas:listar_hab')
@@ -94,6 +88,17 @@ class CrearDetalleHabitacion(CreateView):
     template_name_suffix = '_crear'
     success_url = reverse_lazy('reservas:listar_detHab')
 
+@method_decorator(login_required, name='dispatch')
+class EditarDetalleHabitacion(UpdateView):
+    model = DetalleHabitacion
+    fields = '__all__'
+    template_name_suffix = '_editar'
+    success_url = reverse_lazy('reservas:listar_detHab')
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, 'xxx modificada correctamente.')
+        return super().form_valid(form)       
+
 ''' SERVICIO '''
 @login_required
 def listar_servicios(request, template_name='reservas/listar_servicios.html'):
@@ -109,4 +114,15 @@ class CrearServicio(CreateView):
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.SUCCESS, 'Servicio creado correctamente.')
+        return super().form_valid(form)
+
+@method_decorator(login_required, name='dispatch')
+class EditarServicio(UpdateView):
+    model = Servicio
+    fields = '__all__'
+    template_name_suffix = '_editar'
+    success_url = reverse_lazy('reservas:listar_ser')
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, 'xxx modificada correctamente.')
         return super().form_valid(form)

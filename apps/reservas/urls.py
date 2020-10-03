@@ -12,8 +12,10 @@ urlpatterns = [
     #path('', views.admin_panel, name='admin_panel'),
 
     path('crear_dethabitacion/', views.CrearDetalleHabitacion.as_view(), name='crear_detHab'),
+    path('editar_dethabitacion/<pk>', views.EditarDetalleHabitacion.as_view(), name='editar_detHab'),
     path('listar_dethabitacion/', views.listar_detallesHab, name='listar_detHab'),
 
     path('crear_servicio/', views.CrearServicio.as_view(), name='crear_ser'),
+    path('editar_servicio/<pk>', views.EditarServicio.as_view(), name='editar_ser'),
     path('listar_servicios/', views.listar_servicios, name='listar_ser'),
 ]
