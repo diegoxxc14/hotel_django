@@ -6,7 +6,9 @@
 
     <div class="container">
         <div class="page-header">
-			<h3>Lista de Reservaciones</h3>
+			<h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Reservaciones
+            </h3>
         </div>
 
         <!-- Presentación de mensajes  -->
@@ -23,10 +25,9 @@
             <thead>
                 <tr>
                   <th>#</th>
-                  <th>F. reserva</th>
-                  <th>Nro. personas</th>
-                  <th>Hora llegada</th>
+                  <th>Cliente</th>
                   <th>F. ingreso</th>
+                  <th>Hora llegada</th>
                   <th>F. salida</th>
                   <th>Estado</th>
                   <th>Total</th>
@@ -35,16 +36,20 @@
               </thead>
               <tbody>
                 {% for res in reservas %}
-                <tr {% if res.estado == "CF" %} class="success" 
-                        {% elif res.estado == "EE" %} class="info" 
-                    {% endif %} >
+                <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ res.fecha_reserva }}</td>
-                    <td>{{ res.nro_personas }}</td>
-                    <td>{{ res.hora_llegada }}</td>
+                    <td>{{ res.cliente }}</td>
                     <td>{{ res.periodo.fecha_ingreso }}</td>
+                    <td>{{ res.hora_llegada }}</td>
                     <td>{{ res.periodo.fecha_salida }}</td>
-                    <td>{{ res.get_estado_display }}</td>
+                    <td class="text-center">
+                        <span {% if res.estado == "CF" %} class="label label-success"
+                        {% elif res.estado == "EE" %} class="label label-info" 
+                        {% elif res.estado == "PC" %} class="label label-warning"
+                        {% elif res.estado == "FN" %} class="label label-default"
+                        {% elif res.estado == "CC" %} class="label label-danger"  
+                        {% endif %}>{{ res.get_estado_display }}</span>
+                    </td>
                     <td>${{ res.pago_total }}</td>
                     <td>
                         <a class="btn btn-xs btn-primary glyphicon glyphicon-cog" title="Gestionar"

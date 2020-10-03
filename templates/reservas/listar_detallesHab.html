@@ -5,9 +5,14 @@
 {% block content %}
 
     <div class="container">
-        <div class="page-header">
-			<h3>Lista de Detalles de Habitación</h3>
+        <div class="page-header">            
+            <h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Detalles
+                <a class="btn btn-sm btn-primary" href="{% url 'reservas:crear_detHab' %}">
+                    <span class="glyphicon glyphicon-saved"></span>Crear</a>            
+            </h3>
         </div>
+
         <table id="lista_habitaciones" class="table table-bordered">
             <thead>
                 <tr>
@@ -25,9 +30,7 @@
                     <td>{{ detHab.detalle }}</td>
                     <td>
                         <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar"
-                        href="#"></a>
-                        <!--<a class="btn btn-warning fa fa-edit" 
-                        href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
+                        href="{% url 'reservas:editar_detHab' detHab.pk %}"></a>
                     </td>
                   </tr>
                 {% endfor %}

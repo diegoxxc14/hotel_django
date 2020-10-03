@@ -6,7 +6,11 @@
 
     <div class="container">
         <div class="page-header">
-			<h3>Lista de Servicios</h3>
+            <h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Servicios
+                <a class="btn btn-sm btn-primary" href="{% url 'reservas:crear_ser' %}">
+                    <span class="glyphicon glyphicon-saved"></span>Crear</a>            
+            </h3>
         </div>
 
         <!-- Presentación de mensajes  -->
@@ -31,18 +35,20 @@
               </thead>
               <tbody>
                 {% for ser in servicios %}
-                <tr {% if not ser.activo %} class="active" {% endif %}>
+                <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ ser.nombre }}</td>
                     <td>{{ ser.detalle }}</td>
-                    <td>
-                        {% if ser.activo %} Si {% else %} No {% endif %}
+                    <td class="text-center">
+                        {% if ser.activo %} 
+                            <span class="label label-success">Si</span>
+                        {% else %} 
+                            <span class="label label-danger">No</span>
+                        {% endif %}
                     </td>
                     <td>
                         <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar"
-                        href="#"></a>
-                        <!--<a class="btn btn-warning fa fa-edit" 
-                        href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
+                        href="{% url 'reservas:editar_ser' ser.pk %}"></a>
                     </td>
                   </tr>
                 {% endfor %}

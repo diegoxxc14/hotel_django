@@ -1,12 +1,12 @@
 {% extends "base_admin.html" %}
 {% load bootstrap3 %}
 
-{% block title %} Editar Habitación {% endblock %}
+{% block title %} Editar Detalle de Habitación {% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="page-header">
-			<h3>Editar Habitación</h3>
+			<h3>Editar Detalle</h3>
         </div>
 
         <!-- Presentación de mensajes  -->
@@ -19,11 +19,11 @@
             {% endfor %}
         {% endif %}
 
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST">
             {% csrf_token %}
             {% bootstrap_form form %}
             <button type="submit" class="btn btn-success">{% bootstrap_icon "floppy-disk" %} Guardar</button>
         </form>
-        {{form.foto.url}}
+
     </div>
 {% endblock %}
