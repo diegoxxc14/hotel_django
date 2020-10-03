@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Elegir Habitaciones {% endblock %}
+
+{% block sliders %}
+	<link href="{% static 'css/galleryeffect.css' %}" rel="stylesheet" type="text/css" media="all" />	
+	<div class="banner"></div>
+{% endblock %}
+
+{% block content %}
+
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://unpkg.com/gijgo@1.9.13/js/messages/messages.es-es.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment.min.js"></script>
+    
+    <!-- Datatables css -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.1/css/select.bootstrap.min.css">
+    
+    <!-- Datatables js -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap.min.js"></script>    
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+
+    <div class="content">
+        <div class="welcome">
+            <div class="container">
+                <h2 class="tittle">Habitaciones especiales</h2>
+                <p class="wel text">Semper ac dolor vitae accumsan. Cras interdum hendrerit lacinia. Phasellus accumsan urna
+                    vitae molestie interdum. Nam sed placerat libero, non eleifend dolor.</p>
+                <div class="wel-grids">
+                    {% for hab in habs4 %}
+						<div class="col-md-3 wel-grid">
+							<img src="{{ hab.foto.url }}" class="img-responsive gray" alt=""/>
+							<h4>{{ hab.tipo }}</h4>
+						</div>
+					{% endfor %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reservation">
+            <div class="container">
+                <h3 class="tittle">Hacer una reservación</h3>
+                <div class="row">
+                    <form action="{% url 'home:buscar_hab' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="fechaIngreso">F. entrada:</label>
+                                    <input id="fechaIngreso" name="fecha_ingreso" required />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="fechaSalida">F. salida:</label>
+                                    <input id="fechaSalida" name="fecha_salida" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroDias">Nro. de días:</label>
+                                    <input id="nroDias" name="nro_dias" class="form-control" value="{{ nroDias }}" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="nroPersonas">Nro. de Huéspedes:</label>
+                                    <input id="nroHuespedes" name="nro_huespedes" type="number" value="{{nroHuespedes}}" min="1"
+                                        required class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span> Buscar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        
+                <!-- Presentación de mensajes  -->
+                {% if messages %}
+                {% for message in messages %}
+                <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %} role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+        
+                <div class="row">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span class="glyphicon glyphicon-bed"></span> Habitaciones disponibles</h3>
+                        </div>
+                        <div class="panel-body">
+        
+                            <h5>
+                                <span class="glyphicon glyphicon-info-sign"></span> Todas nuestras reservas incluyen:
+                                {% for ser in servicios %}
+                                <span class="label label-warning">{{ ser.nombre }}</span>
+                                {% endfor %}
+                            </h5>
+                            <table id="hab_disponibles" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Habitación</th>
+                                        <th>Tipo</th>
+                                        <th>Detalles</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hab in habitaciones %}
+                                    <tr id="{{ hab.pk }}">
+                                        <th>{{ forloop.counter }}</th>
+                                        <td>
+                                            <img src="{{ hab.foto.url }}" class="img-thumbnail" width="150px">
+                                        </td>
+                                        <td>{{ hab.tipo }}</td>
+                                        <td>
+                                            {% for det in hab.detalles.all %}
+                                            <span class="label label-success">{{ det.nombre }}</span>
+                                            {% endfor %}
+                                        </td>
+                                        <td>${{ hab.precio }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="form-group text-center">
+                                <!--<button id="btnReservar" class="btn btn-primary" 
+                                        onclick="abrirModal('{#{% url 'home:crear_res' %}#}')" disabled>
+                                            <span class="glyphicon glyphicon-briefcase"></span> Reservar</button>
+                                        -->
+                                <button id="btnReservar" class="btn btn-primary" disabled>
+                                    <span class="glyphicon glyphicon-briefcase"></span> Reservar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Crear Reservación -->
+    <div class="modal fade" id="crear_resevacion" role="dialog"></div>
+
+    <script>
+        //ABRIR MODAL REALIZAR RESERVA
+        function abrirModal(url) {
+            $('#crear_resevacion').load(url, function() {
+                $(this).modal('show');
+            });
+        }
+
+        $(function () {
+            var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            var formato = 'mm/dd/yyyy'
+
+            var fi = $('#fechaIngreso').datepicker({
+                header: true,
+                uiLibrary: 'bootstrap',
+                locale: 'es-es',
+                //format: formato,
+                showOnFocus: false,
+                minDate: today,
+                close: function (e) {
+                    let dias = contarDias(new Date($('#fechaIngreso').val()), new Date($('#fechaSalida').val()));
+                    if (dias > 0) {
+                        $('#nroDias').val(dias);
+                    } else {
+                        fs.value(sumarFecha($('#fechaIngreso').val(), 1));
+                        $('#nroDias').val('1');
+                    }
+                }
+            });
+
+            var fs = $('#fechaSalida').datepicker({
+                header: true,
+                uiLibrary: 'bootstrap',
+                locale: 'es-es',
+                //format: formato,
+                showOnFocus: false,
+                minDate: function () {
+                    return sumarFecha(today, 1);
+                },
+                close: function (e) {
+                    let dias = contarDias(new Date($('#fechaIngreso').val()), new Date($('#fechaSalida').val()));
+                    $('#nroDias').val(dias);
+                }
+            });
+
+            //Inicializar la tabla de habitaciones
+            var tablaHab = $("#hab_disponibles").DataTable({
+                "select": {
+                    "style": "multi",
+                },
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+                    "select": {
+                        "rows": {
+                            _: "Has seleccionado %d habitaciones.",
+                            0: "Da click sobre una habitación para reservar.",
+                            1: "Has seleccionado 1 habitación."
+                        }
+                    }    
+                }
+            });
+
+            //Cargar las fechas iniciales a los datepickers
+            fi.value('{{ fecIngreso|date:"m/d/Y" }}');
+            fs.value('{{ fecSalida|date:"m/d/Y" }}');
+
+            function sumarFecha(fecha, valor) {
+                let fechaIn = new Date(fecha);
+                fechaIn.setDate(fechaIn.getDate() + 1);
+                return new Date(fechaIn.getFullYear(), fechaIn.getMonth(), fechaIn.getDate());
+            }
+
+            function contarDias(fin, fsa) {
+                let fi = moment([fin.getFullYear(), fin.getMonth(), fin.getDate()]);
+                let fs = moment([fsa.getFullYear(), fsa.getMonth(), fsa.getDate()]);
+                return fs.diff(fi, 'days');
+            }
+
+            //SELECCIONAR FILAS CON UN CLICK
+            $('#hab_disponibles tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+                numHabSel = tablaHab.rows('.selected').data().length;
+                console.log(numHabSel);
+                if (numHabSel > 0) {
+                    $('#btnReservar').attr('disabled', false);
+                } else {
+                    $('#btnReservar').attr('disabled', true);
+                }
+            });
+
+            $('#btnReservar').on('click', function () {
+                filas = tablaHab.rows('.selected');//Tomo las filas que se han seleccionado
+                var datos_json = filas.data();//obtengo sus datos como JSON
+                let habitacion_pks = $.makeArray()
+                for (var i=0;i<datos_json.length;i++){//Guardo los pk en un arreglo para pasarlos por AJAX
+                    habitacion_pks.push(datos_json[i].DT_RowId);
+                }
+                reservarSeleccionadas(habitacion_pks);
+            });
+
+            function reservarSeleccionadas(hab_pks) {
+                $.ajax({
+                    data: {'habitaciones_pks':JSON.stringify(hab_pks), 
+                        'nro_dias':$('#nroDias').val(), 'nro_huespedes':$('#nroHuespedes').val(),
+                        'fecha_ingreso':$('#fechaIngreso').val(), 'fecha_salida':$('#fechaSalida').val()    
+                    },
+                    url: "{% url 'home:pre_res' %}", 
+                    type: 'POST',
+                    success: function (data) {
+                        $('#crear_resevacion').html(data).modal('show');   
+                    },
+                    error: function () {
+                        console.log("Hubo un problema");
+                    }
+                });
+            }
+            $('#men_habitacion').attr('class','active');
+        });
+    </script>
+{% endblock %}

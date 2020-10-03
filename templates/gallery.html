@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Hotel Bracamoros {% endblock %}
+{% block title %} Galería {% endblock %}
 
 {% block sliders %}
 	<link href="{% static 'css/galleryeffect.css' %}" rel="stylesheet" type="text/css" media="all" />	
@@ -284,6 +284,11 @@
 
 
 	</div>
+	<script>
+		$(function () {
+			$('#men_galeria').attr('class','active');
+        });
+	</script>
 {% endblock %}
 
 {% block footer %}

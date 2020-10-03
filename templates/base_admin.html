@@ -38,32 +38,40 @@
                         class="glyphicon glyphicon-bed"></span>Habitaciones <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'reservas:crear_hab' %}">
-                                <span class="glyphicon glyphicon-plus"></span> Nueva Habitación</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span>Crear Habitación</a></li>
                             <li><a href="{% url 'reservas:listar_hab' %}">
-                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Habitaciones</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span>Gestionar Habitaciones</a></li>
                             <li class="divider"></li>
                             <li><a href="{% url 'reservas:crear_detHab' %}">
-                                <span class="glyphicon glyphicon-plus"></span> Nuevo Detalle</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span>Crear Detalle</a></li>
                             <li><a href="{% url 'reservas:listar_detHab' %}">
-                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Detalles</a></li>                            
+                                <span class="glyphicon glyphicon-chevron-right"></span>Gestionar Detalles</a></li>                            
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                        class="glyphicon glyphicon-envelope"></span>Reservaciones <b class="caret"></b></a>
+                        class="glyphicon glyphicon-calendar"></span>Reservaciones <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'reservas:listar_res' %}">
-                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Reservas</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span> Gestionar Reservas</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
-                        class="glyphicon glyphicon-home"></span>Hotel <b class="caret"></b></a>
+                        class="glyphicon glyphicon-cog"></span>Configuración <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url 'home_admin:crear_user' %}">
-                                <span class="glyphicon glyphicon-user"></span> Nuevo usuario</a></li>
+                            {% if user.is_superuser %} 
+                                <li><a href="{% url 'home_admin:crear_user' %}">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>Crear Usuario</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'home_admin:listar_users' %}">
+                                <span class="glyphicon glyphicon-chevron-right"></span>Gestionar Usuarios</a></li>
+                            <li class="divider"></li>
                             <li><a href="{% url 'reservas:crear_ser' %}">
-                                <span class="glyphicon glyphicon-plus"></span> Nuevo Servicio</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span>Crear Servicio</a></li>
                             <li><a href="{% url 'reservas:listar_ser' %}">
-                                <span class="glyphicon glyphicon-tasks"></span> Gestionar Servicios</a></li>
+                                <span class="glyphicon glyphicon-chevron-right"></span>Gestionar Servicios</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'home:inicio' %}">
+                                <span class="glyphicon glyphicon-home"></span>Página Principal</a></li>
                         </ul>
                     </li>
                     <!--
@@ -90,6 +98,7 @@
                     -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                <!--    
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                         class="glyphicon glyphicon-comment"></span>Por confirmar <span class="label label-primary">{{ nro_reservas }}</span>
                     </a>
@@ -113,12 +122,12 @@
                             <li><a href="#" class="text-center">View All</a></li>
                         </ul>
                     </li>
+                -->
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
                         class="glyphicon glyphicon-user"></span>{{ user.username }} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-cog"></span>Settings</a></li>
-                            <li class="divider"></li>
+                            <!--<li><a href="#"><span class="glyphicon glyphicon-user"></span>Profile</a></li>
+                            <li class="divider"></li>-->
                             <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-off"></span>Cerrar sesión</a></li>
                         </ul>
                     </li>

@@ -3,65 +3,70 @@
 {% block title %} Admininistración {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="page-header">
-			<h3>Resumen mensual</h3>
+	<div class="container">
+		<div class="page-header">
+			<h3>Panel de Control</h3>
 		</div>
 		<div class="row animated wow fadeInRight" data-wow-duration="1000ms">
-			<div class="col-sm-4">
-				<div class="panel panel-default">
-				<div class="panel-heading">
-					<h3 class="panel-title">Nro. de Reservaciones</h3>
-				</div>
-				<div class="panel-body">
-					{{ nro_reservas }}
-				</div>
-				</div>
-				<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Recaudación total</h3>
-				</div>
-				<div class="panel-body">
-					${{ total }}
-				</div>
-				</div>
-			</div><!-- /.col-sm-4 -->
+
 			<div class="col-sm-4">
 				<div class="panel panel-success">
-				<div class="panel-heading">
-					<h3 class="panel-title">Panel title</h3>
-				</div>
-				<div class="panel-body">
-					Panel content
-				</div>
+					<div class="panel-heading">
+						<h3 class="panel-title">Nro. de Clientes en Nuestro Hotel</h3>
+					</div>
+					<div class="panel-body">
+						{{ nro_clientes }}
+					</div>
 				</div>
 				<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">Panel title</h3>
-				</div>
-				<div class="panel-body">
-					Panel content
-				</div>
+					<div class="panel-heading">
+						<h3 class="panel-title">Reservas por Confirmar</h3>
+					</div>
+					<div class="panel-body">
+						{{ por_confirmar }}
+					</div>
 				</div>
 			</div><!-- /.col-sm-4 -->
 			<div class="col-sm-4">
 				<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h3 class="panel-title">Panel title</h3>
-				</div>
-				<div class="panel-body">
-					Panel content
-				</div>
+					<div class="panel-heading">
+						<h3 class="panel-title">Reservas Confirmadas</h3>
+					</div>
+					<div class="panel-body">
+						{{ confirmadas }}
+					</div>
 				</div>
 				<div class="panel panel-danger">
-				<div class="panel-heading">
-					<h3 class="panel-title">Panel title</h3>
+					<div class="panel-heading">
+						<h3 class="panel-title">Reservas En estadia</h3>
+					</div>
+					<div class="panel-body">
+						{{ en_estadia }}
+					</div>
 				</div>
-				<div class="panel-body">
-					Panel content
+			</div><!-- /.col-sm-4 -->
+			<div class="col-sm-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Total de Reservaciones</h3>
+					</div>
+					<div class="panel-body">
+						{{ nro_reservas }}
+					</div>
 				</div>
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Recaudación total</h3>
+					</div>
+					<div class="panel-body">
+						{% if total is None %}
+						$0,00
+						{% else %}
+						${{ total }}
+						{% endif %}
+					</div>
 				</div>
 			</div><!-- /.col-sm-4 -->
 		</div>
-    </div>
+	</div>
 {% endblock %}
