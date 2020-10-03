@@ -1,0 +1,76 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Reservaciones {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+			<h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Reservaciones
+            </h3>
+        </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+
+        <table id="lista_habitaciones" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Cliente</th>
+                  <th>F. ingreso</th>
+                  <th>Hora llegada</th>
+                  <th>F. salida</th>
+                  <th>Estado</th>
+                  <th>Total</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for res in reservas %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ res.cliente }}</td>
+                    <td>{{ res.periodo.fecha_ingreso }}</td>
+                    <td>{{ res.hora_llegada }}</td>
+                    <td>{{ res.periodo.fecha_salida }}</td>
+                    <td class="text-center">
+                        <span {% if res.estado == "CF" %} class="label label-success"
+                        {% elif res.estado == "EE" %} class="label label-info" 
+                        {% elif res.estado == "PC" %} class="label label-warning"
+                        {% elif res.estado == "FN" %} class="label label-default"
+                        {% elif res.estado == "CC" %} class="label label-danger"  
+                        {% endif %}>{{ res.get_estado_display }}</span>
+                    </td>
+                    <td>${{ res.pago_total }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-primary glyphicon glyphicon-cog" title="Gestionar"
+                        href="{% url 'reservas:gestionar_res' res.pk %}"></a>
+                        <!--<a class="btn btn-warning fa fa-edit" 
+                        href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_habitaciones').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+

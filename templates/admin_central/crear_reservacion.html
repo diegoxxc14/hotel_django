@@ -1,0 +1,95 @@
+{% load bootstrap3 %}
+<!-- Modal -->
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><span class="glyphicon glyphicon-briefcase"></span> Realizar Reserva</h4>
+        </div>
+        <form action="{% url 'home:crear_res' %}" method="POST">
+            <div class="modal-body">            
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {% bootstrap_field form_periodo.fecha_ingreso %}
+                    </div>
+                    <div class="col-md-6">
+                        {% bootstrap_field form_periodo.fecha_salida %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {% bootstrap_field form_cliente.nombres %}
+                    </div>
+                    <div class="col-md-6">
+                        {% bootstrap_field form_cliente.apellidos %}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        {% bootstrap_field form_cliente.telefono %}
+                    </div>
+                    <div class="col-md-6">
+                        {% bootstrap_field form_cliente.email %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {% bootstrap_field form_reserva.nro_personas show_help=False %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form_reserva.pago_total %}
+                    </div>
+                    <div class="col-md-4">
+                        {% bootstrap_field form_reserva.hora_llegada %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <span class="glyphicon glyphicon-bed"></span> Habitaciones seleccionadas
+                            </div>
+                            <table class="table table-bordered table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Tipo</th>
+                                        <th>Detalles</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for hab in habitaciones %}
+                                        <tr>
+                                            <th>{{ forloop.counter }}</th>
+                                            <td>{{ hab.tipo }}</td>
+                                            <td>
+                                                {% for det in hab.detalles.all %}
+                                                <span class="label label-info">{{ det.nombre }}</span>
+                                                {% endfor %}
+                                            </td>
+                                            <td>${{ hab.precio }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        {% bootstrap_field form_reserva.peticion_adicional %}
+                    </div>
+                </div>
+                <div hidden>{% bootstrap_field form_reserva.habitacion %}</div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-ok"></span> Reservar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,127 @@
+{% extends "base_admin.html" %}
+{% load bootstrap3 %}
+
+{% block title %} Gestionar Reservación {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+			<h3>Gestionar Reservación</h3>
+        </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible" {% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {#{% bootstrap_form form layout=layout %}#}  
+
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="cli_telefono">Cliente:</label>
+                        <input type="cli" class="form-control" id="cli_telefono" value="{{ cliente }}" readonly>                       
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="cli_telefono">Teléfono:</label>
+                            <input type="tel" class="form-control" id="cli_telefono" value="{{ cliente.telefono }}" readonly>                       
+                    </div>
+                </div>
+               
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="cli_email">Email:</label>
+                        <input type="email" class="form-control" id="cli_email" value="{{ cliente.email }}" readonly>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="cli_telefono">Entrada:</label>
+                        <input type="tel" class="form-control" id="cli_telefono" value="{{ periodo.fecha_ingreso|date:"l d M Y" }}" readonly>                       
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label" for="cli_telefono">Salida:</label>
+                        <input type="tel" class="form-control" id="cli_telefono" value="{{ periodo.fecha_salida|date:"l d M Y" }}" readonly>                       
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    {% bootstrap_field form.hora_llegada label='Hora de llegada:'%}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3">
+                    {% bootstrap_field form.nro_personas label='Número de personas:' show_help=False %}
+                </div>
+                
+                <div class="col-md-3">
+                    {% bootstrap_field form.pago_total label='Total a pagar:'%}
+                </div>
+
+                <div class="col-md-6">
+                    {% bootstrap_field form.estado label='Estado:'%}
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-bed"></span>Habitaciones</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% for hab in habitaciones %}
+                            <span class="label label-info">{{ hab }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><span class="glyphicon glyphicon-glass"></span>Servicios incluidos</h3>
+                        </div>
+                        <div class="panel-body">
+                            {% for ser in servicios %}
+                            <span class="label label-success">{{ ser }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="col-md-12">
+                    {% bootstrap_field form.peticion_adicional label='Petición adicional:' %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success"><span
+                            class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

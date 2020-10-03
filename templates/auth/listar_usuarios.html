@@ -1,0 +1,83 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Usuarios {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+            <h3><span class="glyphicon glyphicon-triangle-right"></span>Lista de Usuarios
+                {% if user.is_superuser %} 
+                    <a class="btn btn-sm btn-primary" href="{% url 'home_admin:crear_user' %}">
+                        <span class="glyphicon glyphicon-saved"></span>Crear</a>
+                {% endif %}</h3>
+        </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+
+        <table id="lista_usuarios" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Username</th>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Activo</th>
+                  <th>Administrador</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.first_name }}</td>
+                    <td>{{ usuario.last_name }}</td>
+                    <td class="text-center">
+                        {% if usuario.is_active %} 
+                            <span class="label label-success">Si</span>
+                        {% else %} 
+                            <span class="label label-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if usuario.is_superuser %} 
+                            <span class="label label-success">Si</span>
+                        {% else %}
+                            <span class="label label-info">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar Básico" 
+                            href="{% url 'home_admin:editar_basico' usuario.pk %}" ></a>
+                        <span {% if not user.is_superuser or user.username == usuario.username %} hidden {% endif %}>                            
+                            <a class="btn btn-xs btn-danger glyphicon glyphicon-edit" title="Editar Avanzado" 
+                            href="{% url 'home_admin:editar_avanzado' usuario.pk %}" ></a>
+                        </span>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_usuarios').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+

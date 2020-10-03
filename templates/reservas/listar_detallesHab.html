@@ -1,0 +1,51 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Detalles de Habitación {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">            
+            <h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Detalles
+                <a class="btn btn-sm btn-primary" href="{% url 'reservas:crear_detHab' %}">
+                    <span class="glyphicon glyphicon-saved"></span>Crear</a>            
+            </h3>
+        </div>
+
+        <table id="lista_habitaciones" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Detalle</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for detHab in detallesHab %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ detHab.nombre }}</td>
+                    <td>{{ detHab.detalle }}</td>
+                    <td>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar"
+                        href="{% url 'reservas:editar_detHab' detHab.pk %}"></a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_habitaciones').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+

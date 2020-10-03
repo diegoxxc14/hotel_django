@@ -3,33 +3,63 @@
 {% block title %} Habitaciones {% endblock %}
 
 {% block content %}
+    <style>
+        .table>tbody>tr>td {
+            vertical-align: middle;
+        }
+    </style>
 
     <div class="container">
         <div class="page-header">
-			<h3>Lista de Habitaciones</h3>
+            <h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Habitaciones
+                <a class="btn btn-sm btn-primary" href="{% url 'reservas:crear_hab' %}">
+                    <span class="glyphicon glyphicon-saved"></span>Crear</a>            
+            </h3>
         </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+        
         <table id="lista_habitaciones" class="table table-bordered">
             <thead>
                 <tr>
                   <th>#</th>
+                  <th>Fotografía</th>
                   <th>Número</th>
                   <th>Tipo</th>
+                  <th>Habilitada</th>
                   <th>Precio</th>
-                  <th>Planta</th>
                   <th><span class="glyphicon glyphicon-flash"></span></th>
                 </tr>
               </thead>
               <tbody>
                 {% for hab in habitaciones %}
-                <tr {% if not hab.activa %} class="active" {% endif %}>
-                    <th scope="row">{{ forloop.counter }}</th>
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <td>
+                        <img src="{{ hab.foto.url }}" class="img-thumbnail" width="150px">
+                    </td>
                     <td>{{ hab.numero }}</td>
                     <td>{{ hab.tipo }}</td>
-                    <td>{{ hab.precio }}</td>
-                    <td>{{ hab.planta }}</td>
+                    <td class="text-center">
+                        {% if hab.activa %} 
+                            <span class="label label-success">Si</span>
+                        {% else %} 
+                            <span class="label label-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td>${{ hab.precio }}</td>
                     <td>
-                        <a class="btn btn-xs btn-warning" 
-                        href="{% url 'reservas:editar_hab' hab.pk %}"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar" 
+                        href="{% url 'reservas:editar_hab' hab.pk %}"></a>
                         <!--<a class="btn btn-warning fa fa-edit" 
                         href=" url 'roles_pago:editar_ingreso' hab.pk ">Editar</a>-->
                     </td>

@@ -1,0 +1,69 @@
+{% extends "base_admin.html" %}
+
+{% block title %} Servicios {% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="page-header">
+            <h3>
+                <span class="glyphicon glyphicon-triangle-right"></span>Lista de Servicios
+                <a class="btn btn-sm btn-primary" href="{% url 'reservas:crear_ser' %}">
+                    <span class="glyphicon glyphicon-saved"></span>Crear</a>            
+            </h3>
+        </div>
+
+        <!-- Presentación de mensajes  -->
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+              </div>
+            {% endfor %}
+        {% endif %}
+
+        <table id="lista_habitaciones" class="table table-bordered">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Detalle</th>
+                  <th>Activo</th>
+                  <th><span class="glyphicon glyphicon-flash"></span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for ser in servicios %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ ser.nombre }}</td>
+                    <td>{{ ser.detalle }}</td>
+                    <td class="text-center">
+                        {% if ser.activo %} 
+                            <span class="label label-success">Si</span>
+                        {% else %} 
+                            <span class="label label-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-warning glyphicon glyphicon-pencil" title="Editar"
+                        href="{% url 'reservas:editar_ser' ser.pk %}"></a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+        </table>    
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#lista_habitaciones').DataTable({
+                "language":{
+                    "url":"//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+                }
+            });
+        } );
+    </script>
+{% endblock %}
+

@@ -7,6 +7,14 @@ PLANTAS = [
     ('3ra','3er Piso'),
 ]
 
+ESTADO_RESERVACION = [
+    ('PC','Por confirmar'),
+    ('CF','Confirmada'),
+    ('EE','En estadia'),
+    ('FN','Finalizada'),
+    ('CC','Cancelada'),
+]
+
 # Create your models here.
 class Cliente(models.Model):
     nombres = models.CharField(max_length=50)
@@ -18,15 +26,15 @@ class Cliente(models.Model):
         return self.apellidos + ' ' + self.nombres
 
 class DetalleHabitacion(models.Model):
-    nombre = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=50, unique=True)
     detalle = models.TextField(max_length=100, blank=True)
 
     def __str__(self):
         return self.nombre
 
 class Habitacion(models.Model):
-    #foto = models.ImageField() #pip install Pillow
-    numero = models.CharField(verbose_name='Número:', max_length=4)
+    foto = models.ImageField(upload_to='habitaciones/')
+    numero = models.CharField(max_length=4, unique=True)
     tipo = models.CharField(max_length=50)
     precio = models.DecimalField(max_digits=8, decimal_places=2)
     planta = models.CharField(max_length=3, choices=PLANTAS)
@@ -34,7 +42,7 @@ class Habitacion(models.Model):
     detalles = models.ManyToManyField(DetalleHabitacion, related_name='detalles_habitacion')
 
     def __str__(self):
-        return str(self.numero) + ' ' + self.tipo
+        return '{0} - {1}'.format(self.numero, self.tipo)
 
 class Periodo(models.Model):
     fecha_ingreso = models.DateField()
@@ -43,8 +51,8 @@ class Periodo(models.Model):
     def __str__(self):
         return 'Desde el {0} al {1}'.format(self.fecha_ingreso, self.fecha_salida)
 
-class ServicioIncluido(models.Model):
-    nombre = models.CharField(max_length=50)
+class Servicio(models.Model):
+    nombre = models.CharField(max_length=50, unique=True)
     detalle = models.TextField(max_length=100, blank=True)
     activo = models.BooleanField(default=True, null=False) #Controlar si el servicio está incluido o no
 
@@ -54,12 +62,15 @@ class ServicioIncluido(models.Model):
 class Reservacion(models.Model):
     nro_personas = models.IntegerField(help_text='Niños mayores de 12 años pagan tarifa completa', default=1)
     pago_total = models.DecimalField(max_digits=8, decimal_places=2)
-    pagada = models.BooleanField(default=False, null=False) #Controlar si la reserva si está pagada o no
     hora_llegada = models.TimeField()
-    activa = models.BooleanField(default=False, null=False) #Controlar si la reserva es válida o no
     peticion_adicional = models.TextField(max_length=200, blank=True)
-
+    estado = models.CharField(max_length=2, choices=ESTADO_RESERVACION, default='PC')
+    fecha_reserva = models.DateTimeField(auto_now_add=True) #Fecha y hora de creación
+    
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT, null=False)
     habitacion = models.ManyToManyField(Habitacion, related_name='habitaciones')
     periodo = models.ForeignKey(Periodo, on_delete=models.CASCADE, null=False)
-    servicio_incluido = models.ManyToManyField(ServicioIncluido, related_name='servicios_incluidos')
+    servicios = models.ManyToManyField(Servicio, related_name='servicios', help_text='Servicios incluidos')
+
+    class Meta:
+        ordering = ['-periodo']
