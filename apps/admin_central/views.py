@@ -22,7 +22,7 @@ class CrearUsuario(CreateView):
     success_url = reverse_lazy('home_admin:listar_users')
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, 'Usuario editado correctamente.')
+        messages.add_message(self.request, messages.SUCCESS, 'Usuario creado correctamente.')
         return super().form_valid(form)
 
 @method_decorator(login_required, name='dispatch')

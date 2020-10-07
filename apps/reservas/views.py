@@ -88,6 +88,10 @@ class CrearDetalleHabitacion(CreateView):
     template_name_suffix = '_crear'
     success_url = reverse_lazy('reservas:listar_detHab')
 
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, 'Detalle de habitación creado correctamente.')
+        return super().form_valid(form)
+
 @method_decorator(login_required, name='dispatch')
 class EditarDetalleHabitacion(UpdateView):
     model = DetalleHabitacion
@@ -96,7 +100,7 @@ class EditarDetalleHabitacion(UpdateView):
     success_url = reverse_lazy('reservas:listar_detHab')
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, 'xxx modificada correctamente.')
+        messages.add_message(self.request, messages.SUCCESS, 'Detalle de habitación editado correctamente.')
         return super().form_valid(form)       
 
 ''' SERVICIO '''
@@ -124,5 +128,5 @@ class EditarServicio(UpdateView):
     success_url = reverse_lazy('reservas:listar_ser')
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, 'xxx modificada correctamente.')
+        messages.add_message(self.request, messages.SUCCESS, 'Servicio editado correctamente.')
         return super().form_valid(form)
