@@ -46,5 +46,6 @@ class CrearReservacionForm(forms.ModelForm):
         widgets = {
             'nro_personas': forms.NumberInput(attrs={'readonly': True}),
             'pago_total': forms.NumberInput(attrs={'readonly': True}),
-            'peticion_adicional': forms.Textarea(attrs={'rows' : 3, 'style':'resize:none;'})
+            'peticion_adicional': forms.Textarea(attrs={'rows' : 3, 'style':'resize:none;'}),
+            'hora_llegada': forms.TimeInput(attrs={'type': 'time'})
         }
